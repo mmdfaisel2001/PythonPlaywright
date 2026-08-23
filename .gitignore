@@ -10,3 +10,4 @@ venv/
 env/
 credentials.json
 .env
+report.html
