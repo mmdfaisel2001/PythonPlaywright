@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+test-results/
+playwright-report/
+trace/
+*.log
+.venv/
+venv/
+env/
+credentials.json
+.env
