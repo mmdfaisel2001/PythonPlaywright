@@ -4,12 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 bat 'python -m pip install -r requirements.txt'
@@ -18,27 +12,22 @@ pipeline {
 
         stage('Install Playwright Browsers') {
             steps {
-                bat 'python -m playwright install'
+                bat 'python -m playwright install chromium'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest --html=report.html --self-contained-html'
+                bat 'python -m pytest --html=report.html --self-contained-html -n 3'
             }
         }
     }
 
     post {
+
         always {
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: '.',
-                reportFiles: 'report.html',
-                reportName: 'Pytest HTML Report'
-            ])
+            archiveArtifacts artifacts: 'report.html',
+                             allowEmptyArchive: true
         }
 
         success {
